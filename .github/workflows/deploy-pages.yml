@@ -31,6 +31,13 @@ jobs:
         run: npm install
       - name: Build demo
         run: npm run build
+      - name: Verify GitHub Pages bundle
+        run: |
+          test -f dist/index.html
+          grep -q '/yaplus-property-management/assets/' dist/index.html
+          test -n "$(find dist/assets -type f -name '*.js' -print -quit)"
+          test -n "$(find dist/assets -type f -name '*.css' -print -quit)"
+          touch dist/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
